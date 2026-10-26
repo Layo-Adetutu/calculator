@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Layo Calculator</title>
+
+  <style>
+    body {
+      background: #760449;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    .calculator {
+      background: #d506a1;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      width: 300px;
+    }
+
+    h2 {
+      color: rgb(33, 1, 36);
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    #display {
+      width: 95%;
+      height: 60px;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      text-align: right;
+      font-size: 24px;
+      padding: 10px;
+      background: #5e011e;
+      color: rgb(224, 143, 232);
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    button {
+      height: 60px;
+      margin: 5px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #5e011e;
+      color: white;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #475569;
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    .equal {
+      background: #22c55e;
+    }
+
+    .equal:hover {
+      background: #16a34a;
+    }
+
+    .clear {
+      background: #ef4444;
+    }
+
+    .clear:hover {
+      background: #dc2626;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="calculator">
+    <h2>My Calculator</h2>
+    <input type="text" id="display" disabled>
+
+    <div class="buttons">
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button onclick="press('/')">/</button>
+      <button onclick="press('*')">*</button>
+      <button onclick="press('-')">-</button>
+
+      <button onclick="press('7')">7</button>
+      <button onclick="press('8')">8</button>
+      <button onclick="press('9')">9</button>
+      <button onclick="press('+')">+</button>
+
+      <button onclick="press('4')">4</button>
+      <button onclick="press('5')">5</button>
+      <button onclick="press('6')">6</button>
+      <button class="equal" onclick="calculate()">=</button>
+
+      <button onclick="press('1')">1</button>
+      <button onclick="press('2')">2</button>
+      <button onclick="press('3')">3</button>
+      <button onclick="press('0')">0</button>
+    </div>
+  </div>
+
+  <script>
+    let display = document.getElementById("display");
+
+    function press(value) {
+      display.value += value;
+    }
+
+    function calculate() {
+      try {
+        let result = Function("return " + display.value)();
+        display.value = result;
+      } catch {
+        display.value = "Error";
+      }
+    }
+
+    function clearDisplay() {
+      display.value = "";
+    }
+
+    // Keyboard support
+    document.addEventListener("keydown", function(event) {
+      if (!isNaN(event.key) || "+-*/.".includes(event.key)) {
+        press(event.key);
+      } else if (event.key === "Enter") {
+        calculate();
+      } else if (event.key === "Backspace") {
+        display.value = display.value.slice(0, -1);
+      } else if (event.key === "Escape") {
+        clearDisplay();
+      }
+    });
+  </script>
+
+</body>
+</html>
